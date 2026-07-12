@@ -6,7 +6,7 @@
  * Dark mode only for now.
  */
 
-import { palette, radii, spacing, typography } from './primitives';
+import { fonts, palette, radii, spacing, typography } from './primitives';
 
 export const colors = {
   // Surfaces, from the base canvas up through elevated glass layers.
@@ -33,7 +33,7 @@ export const colors = {
 
   // Translucent tints handed to native glass materials.
   glassTintNeutral: 'rgba(124, 135, 152, 0.10)',
-  glassTintAccent: 'rgba(110, 231, 183, 0.16)',
+  glassTintAccent: 'rgba(233, 237, 242, 0.14)',
 } as const;
 
 /** Spacing aliased straight from the primitive scale. */
@@ -79,15 +79,22 @@ export const text = {
   footnote: {
     fontSize: typography.size.footnote,
     lineHeight: typography.lineHeight.footnote,
-    fontWeight: typography.weight.regular,
+    fontFamily: fonts.mono,
     color: colors.textMuted,
   },
   label: {
     fontSize: typography.size.caption,
     lineHeight: typography.lineHeight.caption,
-    fontWeight: typography.weight.bold,
+    fontFamily: fonts.monoBold,
     letterSpacing: typography.tracking.label,
     color: colors.accent,
+  },
+  // Technical mono text — addresses, numbers, code-like values.
+  mono: {
+    fontSize: typography.size.body,
+    lineHeight: typography.lineHeight.body,
+    fontFamily: fonts.mono,
+    color: colors.textPrimary,
   },
 } as const;
 

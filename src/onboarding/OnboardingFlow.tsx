@@ -17,11 +17,16 @@ const TOTAL = 6;
 
 type Primary = { label: string; onPress: () => void; enabled: boolean } | null;
 
+type OnboardingFlowProps = {
+  /** Called when the user finishes onboarding and enters the app. */
+  onFinish?: () => void;
+};
+
 /**
  * Interactive onboarding questionnaire / demo. One local state machine drives a
  * sequence of gesture-based steps: tap, drag, multi-select, and swipe.
  */
-export function OnboardingFlow() {
+export function OnboardingFlow({ onFinish }: OnboardingFlowProps) {
   const [step, setStep] = useState(0);
   const [goal, setGoal] = useState<string>();
   const [level, setLevel] = useState(1);
@@ -29,12 +34,6 @@ export function OnboardingFlow() {
 
   const next = () => setStep((s) => Math.min(s + 1, TOTAL - 1));
   const back = () => setStep((s) => Math.max(s - 1, 0));
-  const restart = () => {
-    setGoal(undefined);
-    setLevel(1);
-    setHelp([]);
-    setStep(0);
-  };
 
   const goalLabel = GOAL_OPTIONS.find((o) => o.id === goal)?.label;
 
@@ -64,7 +63,7 @@ export function OnboardingFlow() {
       break;
     default:
       content = <DoneStep goalLabel={goalLabel} levelLabel={LEVELS[level]} helpCount={help.length} />;
-      primary = { label: 'Start over', onPress: restart, enabled: true };
+      primary = { label: 'Enter app', onPress: () => onFinish?.(), enabled: true };
   }
 
   const showBack = step > 0 && step < TOTAL - 1;

@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { colors, radius, space, text } from '../theme';
@@ -40,7 +40,12 @@ export function GlassButton({
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
-  const effectiveTint = tint ?? (variant === 'primary' || selected ? 'accent' : 'neutral');
+  const isPrimary = variant === 'primary';
+  const effectiveTint = tint ?? (selected ? 'accent' : 'neutral');
+
+  const content =
+    children ??
+    (<Text style={[styles.label, isPrimary && styles.labelPrimary, textStyle]}>{label}</Text>);
 
   return (
     <Pressable
@@ -57,16 +62,19 @@ export function GlassButton({
       style={{ opacity: disabled ? 0.4 : 1 }}
     >
       <Animated.View style={[styles.fullWidth, animatedStyle]}>
-        <GlassSurface
-          tint={effectiveTint}
-          interactive
-          radiusToken={radiusToken}
-          style={[styles.base, selected && styles.selected, style]}
-        >
-          {children ?? (
-            <Text style={[styles.label, variant === 'primary' && styles.labelPrimary, textStyle]}>{label}</Text>
-          )}
-        </GlassSurface>
+        {isPrimary ? (
+          // Solid white CTA with dark text — the primary call to action.
+          <View style={[styles.base, styles.solid, { borderRadius: radiusToken }, style]}>{content}</View>
+        ) : (
+          <GlassSurface
+            tint={effectiveTint}
+            interactive
+            radiusToken={radiusToken}
+            style={[styles.base, selected && styles.selected, style]}
+          >
+            {content}
+          </GlassSurface>
+        )}
       </Animated.View>
     </Pressable>
   );
@@ -87,13 +95,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.accent,
   },
+  solid: {
+    backgroundColor: colors.accent,
+    overflow: 'hidden',
+  },
   label: {
     ...text.callout,
     color: colors.textPrimary,
     fontWeight: '600',
   },
   labelPrimary: {
-    color: colors.accentBright,
+    color: colors.bg,
     fontWeight: '700',
   },
 });

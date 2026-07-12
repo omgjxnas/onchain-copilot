@@ -23,19 +23,26 @@ export const palette = {
     90: '#A9B3C1',
     100: '#F8FAFC', // high-contrast text
   },
-  // Mint / emerald — the brand accent. 80 is the signature colour.
+  // Ice white — a monochrome accent. Low steps stay dark (surfaces), high steps
+  // are near-white for emphasis (active states, primary CTA, the send button).
   accent: {
-    10: '#022C22',
-    20: '#064E3B',
-    30: '#065F46',
-    40: '#047857',
-    50: '#059669',
-    60: '#10B981',
-    70: '#34D399',
-    80: '#6EE7B7', // brand accent
-    90: '#A7F3D0',
-    100: '#D1FAE5',
+    10: '#191C20',
+    20: '#23272C',
+    30: '#31363C',
+    40: '#454B52',
+    50: '#5C636B',
+    60: '#79808A',
+    70: '#99A1AB',
+    80: '#E9EDF2', // brand accent (ice white)
+    90: '#F6F8FB',
+    100: '#FFFFFF',
   },
+} as const;
+
+/** Font families. Loaded via expo-font (see src/theme/fonts). */
+export const fonts = {
+  mono: 'SpaceMono',
+  monoBold: 'SpaceMono-Bold',
 } as const;
 
 /** Spacing scale, 4px-based. Keys are the primitive step, values are px. */
