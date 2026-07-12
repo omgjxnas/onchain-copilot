@@ -1,4 +1,7 @@
-// Must be the very first import so gesture-handler installs its native handlers.
+// Must be first: installs a real CSPRNG (crypto.getRandomValues) before any
+// viem key generation runs.
+import 'react-native-get-random-values';
+// Then gesture-handler installs its native handlers.
 import 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
 
